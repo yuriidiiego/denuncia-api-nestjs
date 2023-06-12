@@ -1,14 +1,35 @@
-version: '3.9'
-
+version: '3.8'
 services:
-  db:
-    container_name: denuncia-backend
-    image: postgres:latest
+  api:
+    container_name: denucia-backend
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - 5432:5432
+      - 3000:3000
+    env_file:
+      - .env
+    depends_on:
+      - db
+    networks:
+      - app-network
+
+  db:
+    container_name: denuncia-db
+    image: postgres
+    restart: always
     environment:
-      - POSTGRES_USER=admin
-      - POSTGRES_PASSWORD=admin123
-      - POSTGRES_DB=denuncia-db
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: denuncia-db
     volumes:
-      - ./data:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - app-network
+
+networks:
+  app-network:
+
+
+volumes:
+  postgres-data:
