@@ -1,40 +1,56 @@
-import { HttpService } from '@nestjs/axios';
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { Endereco } from '@prisma/client';
 import { AxiosResponse } from 'axios';
 import { firstValueFrom } from 'rxjs';
+import { AddressRetrievalFailedException } from './address-retrieval-failed.exception';
 import { MapQuestMapper } from './mapquest.mapper';
+import { HttpService } from '@nestjs/axios';
 
 @Injectable()
 export class MapQuestService {
   private readonly mapQuestUrl: string;
   private readonly mapQuestKey: string;
+  private readonly logger = new Logger(MapQuestService.name);
 
   constructor(
     private readonly httpService: HttpService,
-    configService: ConfigService,
+    private readonly configService: ConfigService,
     private readonly mapper: MapQuestMapper,
   ) {
-    this.mapQuestUrl = configService.get('MAPQUEST_URL');
-    this.mapQuestKey = configService.get('MAPQUEST_KEY');
+    this.mapQuestUrl = this.configService.get('MAPQUEST_URL');
+    this.mapQuestKey = this.configService.get('MAPQUEST_KEY');
   }
 
-  async getReverseGeocoding(
+  async getAddressFromCoordinates(
     latitude: number,
     longitude: number,
   ): Promise<Endereco> {
-    const url = this.buildUrl(latitude, longitude);
-    const response: AxiosResponse = await this.getResponseFromUrl(url);
+    try {
+      const url = this.buildUrl(latitude, longitude);
+      this.logger.debug(
+        `Requesting address for coordinates: ${latitude}, ${longitude}`,
+      );
 
-    return this.mapper.mapResponseToResult(response.data);
+      const response: AxiosResponse = await this.fetchResponse(url);
+      const address = this.mapper.mapLocationToAddress(response.data);
+
+      this.logger.debug(
+        'Successfully retrieved address from MapQuest API:',
+        JSON.stringify(address),
+      );
+      return address;
+    } catch (error) {
+      this.logger.error('Failed to retrieve address from MapQuest API:', error);
+      throw new AddressRetrievalFailedException();
+    }
   }
 
   private buildUrl(latitude: number, longitude: number) {
     return `${this.mapQuestUrl}${this.mapQuestKey}&location=${latitude},${longitude}`;
   }
 
-  private async getResponseFromUrl(url: string): Promise<AxiosResponse> {
+  private async fetchResponse(url: string): Promise<AxiosResponse> {
     return firstValueFrom(this.httpService.get(url));
   }
 }
