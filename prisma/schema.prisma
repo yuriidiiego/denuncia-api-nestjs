@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -17,15 +14,15 @@ model Denuncia {
   latitude      Float
   longitude     Float
   denuncianteId Int
-  denunciante   Denunciante @relation(fields: [denuncianteId], references: [id])
-  enderecoCep   Endereco    @relation(fields: [enderecoCepId], references: [cep])
+  denunciante   Denunciante @relation(fields: [denuncianteId], references: [id], onDelete: Cascade)
+  enderecoCep   Endereco    @relation(fields: [enderecoCepId], references: [cep], onDelete: Cascade)
   enderecoCepId String
 }
 
 model Denunciante {
-  id        Int        @id @default(autoincrement())
+  id        Int        @id @default(autoincrement()) 
   nome      String
-  cpf       String
+  cpf       String     @unique
   denuncias Denuncia[]
 }
 
