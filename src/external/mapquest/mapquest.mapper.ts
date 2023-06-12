@@ -3,16 +3,14 @@ import { Endereco } from '@prisma/client';
 
 @Injectable()
 export class MapQuestMapper {
-  public mapResponseToResult(data: any): Endereco {
-    const location = data.results[0]?.locations[0];
-
+  public mapLocationToAddress(data: MapQuestLocation): Endereco {
     return {
-      cep: location?.postalCode,
-      logradouro: location?.street,
-      bairro: location?.adminArea6,
-      cidade: location?.adminArea5,
-      estado: location?.adminArea3,
-      pais: location?.adminArea1,
+      cep: data.results[0].locations[0].postalCode,
+      logradouro: data.results[0].locations[0].street,
+      bairro: data.results[0].locations[0].adminArea6,
+      cidade: data.results[0].locations[0].adminArea5,
+      estado: data.results[0].locations[0].adminArea3,
+      pais: data.results[0].locations[0].adminArea1,
     };
   }
 }
