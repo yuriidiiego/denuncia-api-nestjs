@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { Endereco } from '@prisma/client';
-import { MapQuestService } from '../external/mapquest/mapquest.service';
-import { PrismaService } from '../prisma/prisma.service';
+
 import { DenunciaNotFoundException } from './denuncia-not-found.exception';
 import { DenunciaMapper } from './denuncia.mapper';
 import { DenunciaRequest } from './payload/request/create-denuncia.request';
 import { DenuncianteRequest } from './payload/request/create-denunciante.request';
 import { UpdateDenunciaRequest } from './payload/request/update-denuncia.request';
 import { DenunciaResponse } from './payload/response/create-denuncia.response';
+import { MapQuestService } from '../external/mapquest/mapquest.service';
+import { PrismaService } from '../prisma/prisma.service';
 
 @Injectable()
 export class DenunciaService {
@@ -54,18 +55,19 @@ export class DenunciaService {
   }
 
   async getDenunciaById(id: number): Promise<DenunciaResponse> {
-    const denuncia = await this.prismaService.denuncia.findUnique({
-      where: { id: Number(id) },
-    }).then((denuncia) => {
-      if (!denuncia) {
-        throw new DenunciaNotFoundException(id);
-      }
-      return this.denunciaMapper.mapToResponse(denuncia);
-    });
-  
+    const denuncia = await this.prismaService.denuncia
+      .findUnique({
+        where: { id: Number(id) },
+      })
+      .then((denuncia) => {
+        if (!denuncia) {
+          throw new DenunciaNotFoundException(id);
+        }
+        return this.denunciaMapper.mapToResponse(denuncia);
+      });
+
     return denuncia;
   }
-  
 
   async deleteDenuncia(id: number): Promise<void> {
     await this.getDenunciaById(id);
