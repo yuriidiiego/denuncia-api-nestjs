@@ -23,13 +23,13 @@ export class MapQuestService {
   }
 
   async getAddressFromCoordinates(
-    latitude: number,
-    longitude: number,
+    lat: number,
+    long: number,
   ): Promise<Endereco> {
     try {
-      const url = this.buildUrl(latitude, longitude);
+      const url = this.buildUrl(lat, long);
       this.logger.debug(
-        `Requesting address for coordinates: ${latitude}, ${longitude}`,
+        `Requesting address for coordinates: ${lat}, ${long}`,
       );
 
       const response: AxiosResponse = await this.fetchResponse(url);
@@ -41,13 +41,12 @@ export class MapQuestService {
       );
       return address;
     } catch (error) {
-      this.logger.error('Failed to retrieve address from MapQuest API:', error);
       throw new AddressRetrievalFailedException();
     }
   }
 
-  private buildUrl(latitude: number, longitude: number) {
-    return `${this.mapQuestUrl}${this.mapQuestKey}&location=${latitude},${longitude}`;
+  private buildUrl(lat: number, long: number) {
+    return `${this.mapQuestUrl}${this.mapQuestKey}&location=${lat},${long}`;
   }
 
   private async fetchResponse(url: string): Promise<AxiosResponse> {
