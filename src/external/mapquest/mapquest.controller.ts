@@ -8,13 +8,13 @@ export class MapQuestController {
 
   @Get()
   async getAddressFromCoordinates(
-    @Query('latitude') latitude: number,
-    @Query('longitude') longitude: number,
+    @Query('lat') lat: number,
+    @Query('long') long: number,
   ): Promise<Endereco> {
-    const endereco = await this.mapQuestService.getAddressFromCoordinates(
-      latitude,
-      longitude,
+    const address = await this.mapQuestService.getAddressFromCoordinates(
+      lat,
+      long,
     );
-    return endereco;
+    return address;
   }
 }
