@@ -1,10 +1,11 @@
-import { HttpException, HttpStatus } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  InternalServerErrorException,
+} from '@nestjs/common';
 
-export class AddressRetrievalFailedException extends HttpException {
+export class AddressRetrievalFailedException extends InternalServerErrorException {
   constructor() {
-    super(
-      'Falha ao obter o endereço a partir das coordenadas',
-      HttpStatus.INTERNAL_SERVER_ERROR,
-    );
+    super('Failed to retrieve address from MapQuest API.');
   }
 }
