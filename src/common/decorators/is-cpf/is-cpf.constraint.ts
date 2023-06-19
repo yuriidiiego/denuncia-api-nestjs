@@ -12,6 +12,6 @@ export class IsCPFConstraint implements ValidatorConstraintInterface {
   }
 
   defaultMessage(args: ValidationArguments) {
-    return `${args.property} must be a valid CPF. Example: 123.456.789-00.`;
+    return `${args.property} deve ser um CPF válido. Exemplo: 123.456.789-00.`;
   }
 }
