@@ -1,9 +1,11 @@
-import { Module } from '@nestjs/common';
-import { DenunciaModule } from './denuncia/denuncia.module';
-import { PrismaModule } from './prisma/prisma.module';
-import { MapQuestModule } from './external/mapquest/mapquest.module';
-import { ConfigModule } from '@nestjs/config';
 import { HttpModule } from '@nestjs/axios';
+import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { APP_FILTER } from '@nestjs/core';
+import { GlobalExceptionFilter } from './common/filters/global-exception.filter';
+import { DenunciaModule } from './denuncia/denuncia.module';
+import { MapQuestModule } from './external/mapquest/mapquest.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -14,6 +16,11 @@ import { HttpModule } from '@nestjs/axios';
     MapQuestModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_FILTER,
+      useClass: GlobalExceptionFilter,
+    },
+  ],
 })
 export class AppModule {}
