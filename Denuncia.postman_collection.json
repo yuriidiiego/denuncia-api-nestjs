@@ -1,0 +1,161 @@
+{
+  "info": {
+    "_postman_id": "4ff89d89-893b-4a19-816f-befaca13e379",
+    "name": "Denuncia",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17690371"
+  },
+  "item": [
+    {
+      "name": "Cria um nova denuncia",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"titulo\": \"Denúncia de Poluição Sonora\",\n    \"descricao\": \"Festa com volume alto durante a madrugada\",\n    \"latitude\": -1.3486497526343293,\n    \"longitude\": -48.391420579929125,\n    \"denunciante\": {\n        \"nome\": \"Yuri Nascimento\",\n        \"cpf\": \"709.890.982-302\"\n    }\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/denuncias",
+          "host": ["{{serverUrl}}"],
+          "path": ["denuncias"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retorna todas as denuncias",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/denuncias",
+          "host": ["{{serverUrl}}"],
+          "path": ["denuncias"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Busca endereco pelas coordenadas",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/endereco?lat=-1.3486497526343293&long=-48.391420579929125",
+          "host": ["{{serverUrl}}"],
+          "path": ["endereco"],
+          "query": [
+            {
+              "key": "lat",
+              "value": "-1.3486497526343293"
+            },
+            {
+              "key": "long",
+              "value": "-48.391420579929125"
+            }
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Retorna uma denuncia pelo id",
+      "protocolProfileBehavior": {
+        "disableBodyPruning": true
+      },
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/denuncias/1",
+          "host": ["{{serverUrl}}"],
+          "path": ["denuncias", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Deleta uma denuncia pelo id",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/denuncias/1",
+          "host": ["{{serverUrl}}"],
+          "path": ["denuncias", "1"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "Atualiza parcialmente um denuncia pelo id",
+      "request": {
+        "method": "PATCH",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"titulo\": \"Novo titulo\"\n}\n",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "{{serverUrl}}/denuncias/1",
+          "host": ["{{serverUrl}}"],
+          "path": ["denuncias", "1"]
+        }
+      },
+      "response": []
+    }
+  ]
+}
