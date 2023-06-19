@@ -1,33 +1,22 @@
-# Use the node:18-alpine base image and define an intermediate stage named 'builder'
-FROM node:18-alpine AS builder
-
-# Set the working directory to /app inside the container
-WORKDIR /app
-
-# Copy package.json, package-lock.json, and prisma directory to the working directory
-COPY package*.json ./
-COPY prisma ./prisma/
-
-# Install project dependencies
+FROM node:18 AS build
+WORKDIR /usr/src/app
+COPY package.json .
+COPY package-lock.json .
 RUN npm install
-
-# Copy all files and directories to the working directory
 COPY . .
-
-# Build the project
+RUN npx prisma generate
 RUN npm run build
 
-# Set a new base image as node:18-alpine for the final stage
-FROM node:18-alpine
+FROM node:18-slim
+RUN apt update && apt install libssl-dev dumb-init -y --no-install-recommends
+WORKDIR /usr/src/app
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/.env .env
+COPY --chown=node:node --from=build /usr/src/app/package.json .
+COPY --chown=node:node --from=build /usr/src/app/package-lock.json .
+RUN npm install --omit=dev
+COPY --chown=node:node --from=build /usr/src/app/node_modules/.prisma/client ./node_modules/.prisma/client
 
-# Copy node_modules from the 'builder' stage to the final image
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package*.json ./
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/prisma ./prisma
-
-# Expose port 3000 for external access
+ENV NODE_ENV production
 EXPOSE 3000
-
-# Define the command to be executed when the container starts
-CMD [ "npm", "run", "start:migrate:prod" ]
+CMD ["dumb-init", "node", "dist/src/main"]
