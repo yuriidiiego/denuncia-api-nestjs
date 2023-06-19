@@ -29,14 +29,14 @@ export class MapQuestService {
     try {
       const url = this.buildUrl(lat, long);
       this.logger.debug(
-        `Requesting address for coordinates: ${lat}, ${long}`,
+        `Requisitando endereço para coordenadas: ${lat}, ${long}`,
       );
 
       const response: AxiosResponse = await this.fetchResponse(url);
       const address = this.mapper.mapLocationToAddress(response.data);
 
       this.logger.debug(
-        'Successfully retrieved address from MapQuest API:',
+        'Endereço recuperado com sucesso da API do MapQuest:',
         JSON.stringify(address),
       );
       return address;
