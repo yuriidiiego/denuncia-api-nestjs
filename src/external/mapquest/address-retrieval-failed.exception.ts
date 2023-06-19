@@ -6,6 +6,6 @@ import {
 
 export class AddressRetrievalFailedException extends InternalServerErrorException {
   constructor() {
-    super('Failed to retrieve address from MapQuest API.');
+    super('Falha ao recuperar o endereço da API do MapQuest.');
   }
 }
