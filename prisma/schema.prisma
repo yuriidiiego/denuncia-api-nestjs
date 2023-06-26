@@ -3,8 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
 }
 
 model Denuncia {
@@ -17,13 +17,17 @@ model Denuncia {
   denunciante   Denunciante @relation(fields: [denuncianteId], references: [id], onDelete: Cascade)
   enderecoCep   Endereco    @relation(fields: [enderecoCepId], references: [cep], onDelete: Cascade)
   enderecoCepId String
+
+  @@map("denuncia")
 }
 
 model Denunciante {
-  id        Int        @id @default(autoincrement()) 
+  id        Int        @id @default(autoincrement())
   nome      String
   cpf       String     @unique
   denuncias Denuncia[]
+
+  @@map("denunciante")
 }
 
 model Endereco {
@@ -34,4 +38,34 @@ model Endereco {
   estado     String
   pais       String
   denuncias  Denuncia[]
+
+  @@map("endereco")
+}
+
+model User {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  password     String
+  createdAt    DateTime @default(now())
+  role         Role     @relation(fields: [roleId], references: [id])
+  roleId       Int
+  refreshToken String?
+
+  @@map("user")
+}
+
+model Role {
+  id    Int      @id @default(autoincrement())
+  name  UserRole @unique
+  users User[]
+
+  @@map("role")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+  MODERATOR
+  DEVELOPER
 }
