@@ -14,7 +14,8 @@ export function setupSwagger(app: INestApplication) {
     )
     .setLicense('Apache 2.0', 'https://www.apache.org/licenses/LICENSE-2.0')
     .setVersion('1.0')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('denuncia', app, document);
+  SwaggerModule.setup('denuncia-api', app, document);
 }
