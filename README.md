@@ -36,8 +36,11 @@ Siga as etapas abaixo para executar o projeto em seu ambiente de desenvolvimento
 2. Clone o repositório do projeto.
 3. Acesse o diretório do projeto.
 4. Execute o comando `docker-compose up -d` para iniciar os containers do projeto.
-5. Acesse a API por meio da URL `http://localhost:3000`. 🌐
 
-## Configuração do Swagger 📖
+5. Após iniciar o projeto, você pode testar a API de denúncia de duas maneiras:
 
-Acesse a [documentação da API](http://localhost:3000/denuncia-api) para mais informações. 🚀
+    - **Swagger**: Acesse a [documentação da API](http://localhost:3000/denuncia-api) para visualizar todos os endpoints, métodos, autenticação e payloads disponíveis. O Swagger fornece uma interface interativa para testar e explorar a API.
+
+    - **Postman**: Importe o arquivo `Denuncia.postman_collection` que está localizado na pasta principal do projeto NestJS para o Postman. O arquivo contém uma coleção de requisições pré-configuradas para os endpoints da API. Você pode usar essas requisições para testar a API diretamente no Postman.
+
+Essas duas opções permitem que você interaja com a API e teste suas funcionalidades. Escolha a opção que melhor atenda às suas necessidades.
