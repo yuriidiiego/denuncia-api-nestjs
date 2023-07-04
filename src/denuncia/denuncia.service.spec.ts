@@ -92,7 +92,7 @@ describe('DenunciaService', () => {
   });
 
   describe('createDenuncia', () => {
-    it('should create a new denuncia', async () => {
+    it('deve criar uma denúncia', async () => {
       jest.spyOn(mapQuestService, 'getAddressFromCoordinates');
 
       const result = await service.createDenuncia(fakeDenunciaRequest);
@@ -124,7 +124,7 @@ describe('DenunciaService', () => {
   });
 
   describe('getDenuncias', () => {
-    it('should return all denuncias', async () => {
+    it('deve retornar todas as denúncias', async () => {
       const result = await service.getDenuncias();
 
       expect(prisma.denuncia.findMany).toHaveBeenCalledWith({
@@ -138,7 +138,7 @@ describe('DenunciaService', () => {
   });
 
   describe('getDenunciaById', () => {
-    it('should return the denuncia with the given id', async () => {
+    it('deve retornar a denúncia com o ID fornecido', async () => {
       const denunciaId = 1;
       const result = await service.getDenunciaById(denunciaId);
 
@@ -148,7 +148,7 @@ describe('DenunciaService', () => {
       expect(result).toEqual(fakeDenuncias[0]);
     });
 
-    it('should throw DenunciaNotFoundException when the denuncia is not found', async () => {
+    it('deve lancar uma NotFoundException quando a denúncia não for encontrada', async () => {
       const denunciaId = 999;
       jest.spyOn(prisma.denuncia, 'findUnique').mockResolvedValueOnce(null);
 
@@ -159,7 +159,7 @@ describe('DenunciaService', () => {
   });
 
   describe('deleteDenuncia', () => {
-    it('should delete the denuncia with the given id', async () => {
+    it('deve deletar a denúncia com o ID fornecido', async () => {
       const denunciaId = 1;
       jest
         .spyOn(service, 'getDenunciaById')
@@ -173,7 +173,7 @@ describe('DenunciaService', () => {
       });
     });
 
-    it('should throw NotFoundException when the denuncia is not found', async () => {
+    it('deve lançar uma NotFoundException quando a denúncia não for encontrada', async () => {
       const denunciaId = 999;
       jest
         .spyOn(service, 'getDenunciaById')
@@ -186,7 +186,7 @@ describe('DenunciaService', () => {
   });
 
   describe('updateDenuncia', () => {
-    it('should update the denuncia with the given id', async () => {
+    it('deve atualizar a denúncia com o ID fornecido', async () => {
       const denunciaId = 1;
       jest
         .spyOn(service, 'getDenunciaById')
@@ -205,7 +205,7 @@ describe('DenunciaService', () => {
       expect(result).toEqual(fakeDenuncias[0]);
     });
 
-    it('should throw NotFoundException when the denuncia is not found', async () => {
+    it('deve lancar uma NotFoundException quando a denúncia não for encontrada', async () => {
       const denunciaId = 999;
       jest
         .spyOn(service, 'getDenunciaById')
