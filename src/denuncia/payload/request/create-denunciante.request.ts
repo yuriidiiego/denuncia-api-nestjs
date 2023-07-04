@@ -8,8 +8,8 @@ export class DenuncianteRequest {
     description: 'O nome do denunciante',
     type: String,
   })
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'O campo "nome" não pode estar vazio.' })
+  @IsString({ message: 'O campo "nome" deve ser uma string.' })
   nome: string;
 
   @ApiProperty({
@@ -18,8 +18,8 @@ export class DenuncianteRequest {
     pattern: '/^(d{3}.?d{3}.?d{3}-?d{2})$/',
     type: String,
   })
-  @IsNotEmpty()
-  @IsString()
+  @IsNotEmpty({ message: 'O campo "cpf" não pode estar vazio.' })
+  @IsString({ message: 'O campo "cpf" deve ser uma string.' })
   @IsCPF()
   cpf: string;
 }
