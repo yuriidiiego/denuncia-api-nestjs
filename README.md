@@ -1,75 +1,43 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# Denúncia API 🚨
 
+Este projeto consiste em um sistema de denúncias, desenvolvido utilizando o framework NestJS. O objetivo principal é fornecer uma plataforma para que os usuários possam enviar denúncias sobre determinados incidentes. 🔒
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Tecnologias Utilizadas 🛠️
 
-## Description
+| Tecnologia | Descrição                                                                                      |
+|------------|-----------------------------------------------------------------------------------------------|
+| NestJS     | Framework para construção de aplicativos Node.js eficientes e escaláveis. 🦅                   |
+| PostgreSQL | Banco de dados relacional utilizado para armazenar os dados da aplicação. 🐘                    |
+| Prisma     | ORM (Object-Relational Mapping) utilizado para interagir com o banco de dados PostgreSQL. 🎯    |
+| Swagger    | Ferramenta utilizada para gerar a documentação da API. 📚                                      |
+| Bcrypt     | Biblioteca para hashing de senhas. 🔒                                                         |
+| Passport   | Middleware de autenticação para autenticação de usuários. 🗝️                                 |
+| JSON Web Token (JWT) | Método de autenticação stateless que utiliza tokens assinados para verificar a identidade dos usuários. 🔑 |
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+## Endpoints da API 🚦
 
-## Installation
+A tabela abaixo lista todos os endpoints disponíveis na API, juntamente com os métodos, rotas, autenticação e payloads correspondentes. 📝
 
-```bash
-npm install
-```
+| Endpoint                 | Método | Rota                | Autenticação  | Payload                                                                                                   | Descrição                                         |
+|--------------------------|--------|---------------------|---------------|-----------------------------------------------------------------------------------------------------------|---------------------------------------------------|
+| Cadastro de Usuário      | ✅ POST   | /usuario/cadastro   | ❌ Nenhum        | `{"name": "string", "email": "string", "password": "string"}`                                             | Cria um novo usuário na aplicação                  |
+| Login                    | ✅ POST   | /auth/login         | ❌ Nenhum        | `{"email": "string", "password": "string"}`                                                               | Autentica um usuário existente                     |
+| Criar uma Denúncia       | ✅ POST   | /denuncia           | 🔑 Bearer Token  | `{"titulo": "string", "descricao": "string", "latitude": 0, "longitude": 0, "denunciante": {...}}`       | Cria uma nova denúncia                            |
+| Obter Todas as Denúncias | ✅ GET    | /denuncia           | 🔑 Bearer Token  | ❌ Nenhum                                                                                                    | Retorna todas as denúncias cadastradas             |
+| Obter uma Denúncia       | ✅ GET    | /denuncia/{id}      | 🔑 Bearer Token  | ❌ Nenhum                                                                                                    | Retorna uma denúncia específica                   |
+| Excluir uma Denúncia     | ✅ DELETE | /denuncia/{id}      | 🔑 Bearer Token  | ❌ Nenhum                                                                                                    | Exclui uma denúncia pelo ID especificado           |
+| Atualizar uma Denúncia   | ✅ PATCH  | /denuncia/{id}      | 🔑 Bearer Token  | Objeto com informações da denúncia a ser atualizada                                                      | Atualiza uma denúncia pelo ID especificado         |
 
-## Running the app
+## Executando o Projeto ▶️
 
-```bash
-# development
-$ npm run start
+Siga as etapas abaixo para executar o projeto em seu ambiente de desenvolvimento:
 
-# watch mode
-$ npm run start:dev
+1. Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
+2. Clone o repositório do projeto.
+3. Acesse o diretório do projeto.
+4. Execute o comando `docker-compose up -d` para iniciar os containers do projeto.
+5. Acesse a API por meio da URL `http://localhost:3000`. 🌐
 
-# production mode
-$ npm run start:prod
-```
+## Configuração do Swagger 📖
 
-## Test
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](LICENSE).
-
-## 🚧 Under construction 🚧
-
-This documentation is still under construction. Some information may be incomplete or outdated. This project is still in development for study purposes, and this documentation may be updated at any time.
+Acesse a [documentação da API](http://localhost:3000/denuncia-api) para mais informações. 🚀
