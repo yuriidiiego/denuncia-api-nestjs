@@ -1,161 +1,261 @@
 {
   "info": {
     "_postman_id": "4ff89d89-893b-4a19-816f-befaca13e379",
-    "name": "Denuncia",
+    "name": "Denúncia API 🚨",
+    "description": "Este projeto consiste em um sistema de denúncias, desenvolvido utilizando o framework NestJS. O objetivo principal é fornecer uma plataforma para que os usuários possam enviar denúncias sobre determinados incidentes. 🔒\n\n## Tecnologias Utilizadas 🛠️\n\n- NestJS: Framework para construção de aplicativos Node.js eficientes e escaláveis. 🦅\n- PostgreSQL: Banco de dados relacional utilizado para armazenar os dados da aplicação. 🐘\n- Prisma: ORM (Object-Relational Mapping) utilizado para interagir com o banco de dados PostgreSQL. 🎯\n- Swagger: Ferramenta utilizada para gerar a documentação da API. 📚\n- bcrypt: Biblioteca para hashing de senhas. 🔒\n- Passport: Middleware de autenticação para autenticação de usuários. 🗝️\n- JSON Web Token (JWT): Método de autenticação stateless que utiliza tokens assinados para verificar a identidade dos usuários. 🔑\n    \n\n## Executando o Projeto ▶️\n\n- Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.\n- Clone o repositório do projeto.\n- Acesse o diretório do projeto.\n- Execute o comando `docker-compose up -d` para iniciar os containers do projeto.\n- Acesse a API por meio da URL `http://localhost:3000`. 🌐\n- Siga as etapas abaixo para executar o projeto em seu ambiente de desenvolvimento:\n- Acesse a URL `http://localhost:3000/denuncia-api` para visualizar a documentação da API. 🚀\n- Agora você está pronto para utilizar a API de Denúncias e reportar incidentes de forma eficiente e segura! 🚀📢",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
     "_exporter_id": "17690371"
   },
   "item": [
     {
-      "name": "Cria um nova denuncia",
-      "request": {
-        "method": "POST",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n    \"titulo\": \"Denúncia de Poluição Sonora\",\n    \"descricao\": \"Festa com volume alto durante a madrugada\",\n    \"latitude\": -1.3486497526343293,\n    \"longitude\": -48.391420579929125,\n    \"denunciante\": {\n        \"nome\": \"Yuri Nascimento\",\n        \"cpf\": \"709.890.982-302\"\n    }\n}",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{serverUrl}}/denuncias",
-          "host": ["{{serverUrl}}"],
-          "path": ["denuncias"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Retorna todas as denuncias",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{serverUrl}}/denuncias",
-          "host": ["{{serverUrl}}"],
-          "path": ["denuncias"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Busca endereco pelas coordenadas",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{serverUrl}}/endereco?lat=-1.3486497526343293&long=-48.391420579929125",
-          "host": ["{{serverUrl}}"],
-          "path": ["endereco"],
-          "query": [
-            {
-              "key": "lat",
-              "value": "-1.3486497526343293"
+      "name": "autenticação",
+      "item": [
+        {
+          "name": "Registra um usuário",
+          "request": {
+            "auth": {
+              "type": "noauth"
             },
-            {
-              "key": "long",
-              "value": "-48.391420579929125"
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Ayla\",\n    \"email\": \"example@gmail.com\",\n    \"password\": \"KL2s93jjsLaOp\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/usuario/cadastro",
+              "host": ["{{serverUrl}}"],
+              "path": ["usuario", "cadastro"]
             }
-          ]
+          },
+          "response": []
+        },
+        {
+          "name": "Faz login na aplicação",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"example@gmail.com\",\n    \"password\": \"KL2s93jjsLaOp\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/autenticacao/login",
+              "host": ["{{serverUrl}}"],
+              "path": ["autenticacao", "login"]
+            }
+          },
+          "response": []
         }
-      },
-      "response": []
+      ]
     },
     {
-      "name": "Retorna uma denuncia pelo id",
-      "protocolProfileBehavior": {
-        "disableBodyPruning": true
-      },
-      "request": {
-        "method": "GET",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
+      "name": "denuncia",
+      "item": [
+        {
+          "name": "Cria um nova denuncia",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"titulo\": \"Denúncia de Poluição Sonora\",\n    \"descricao\": \"Festa com volume alto durante a madrugada\",\n    \"latitude\": -1.3486497526343293,\n    \"longitude\": -48.391420579929125,\n    \"denunciante\": {\n        \"nome\": \"Yuri Nascimento\",\n        \"cpf\": \"709.890.982-30\"\n    }\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/denuncia",
+              "host": ["{{serverUrl}}"],
+              "path": ["denuncia"]
             }
+          },
+          "response": []
+        },
+        {
+          "name": "Retorna todas as denuncias",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/denuncia",
+              "host": ["{{serverUrl}}"],
+              "path": ["denuncia"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Busca endereco pelas coordenadas",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/endereco?lat=-1.3486497526343293&long=-48.391420579929125",
+              "host": ["{{serverUrl}}"],
+              "path": ["endereco"],
+              "query": [
+                {
+                  "key": "lat",
+                  "value": "-1.3486497526343293"
+                },
+                {
+                  "key": "long",
+                  "value": "-48.391420579929125"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Retorna uma denuncia pelo id",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/denuncia/1",
+              "host": ["{{serverUrl}}"],
+              "path": ["denuncia", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Deleta uma denuncia pelo id",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/denuncia/1",
+              "host": ["{{serverUrl}}"],
+              "path": ["denuncia", "1"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Atualiza parcialmente um denuncia pelo id",
+          "request": {
+            "method": "PATCH",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Novo titulo\"\n}\n",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{serverUrl}}/denuncia/1",
+              "host": ["{{serverUrl}}"],
+              "path": ["denuncia", "1"]
+            }
+          },
+          "response": []
+        }
+      ],
+      "auth": {
+        "type": "bearer",
+        "bearer": [
+          {
+            "key": "token",
+            "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjMsImlhdCI6MTY4ODA2NzI3NCwiZXhwIjoxNjg4MDcwODc0fQ.uECdbDhS4tpWSZzHnshCxsJpRJTHxdliYHOKHuggI40",
+            "type": "string"
+          }
+        ]
+      },
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
           }
         },
-        "url": {
-          "raw": "{{serverUrl}}/denuncias/1",
-          "host": ["{{serverUrl}}"],
-          "path": ["denuncias", "1"]
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
         }
-      },
-      "response": []
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
     },
     {
-      "name": "Deleta uma denuncia pelo id",
-      "request": {
-        "method": "DELETE",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{serverUrl}}/denuncias/1",
-          "host": ["{{serverUrl}}"],
-          "path": ["denuncias", "1"]
-        }
-      },
-      "response": []
-    },
-    {
-      "name": "Atualiza parcialmente um denuncia pelo id",
-      "request": {
-        "method": "PATCH",
-        "header": [],
-        "body": {
-          "mode": "raw",
-          "raw": "{\n  \"titulo\": \"Novo titulo\"\n}\n",
-          "options": {
-            "raw": {
-              "language": "json"
-            }
-          }
-        },
-        "url": {
-          "raw": "{{serverUrl}}/denuncias/1",
-          "host": ["{{serverUrl}}"],
-          "path": ["denuncias", "1"]
-        }
-      },
-      "response": []
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
     }
   ]
 }
