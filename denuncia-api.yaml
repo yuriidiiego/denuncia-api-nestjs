@@ -1,0 +1,348 @@
+openapi: 3.0.0
+info:
+  title: Denuncia API
+  description: >-
+    Este projeto consiste em um sistema de denúncias, desenvolvido utilizando o
+    framework NestJS. O objetivo principal é fornecer uma plataforma para que os
+    usuários possam enviar denúncias sobre determinados incidentes.
+  version: "1.0"
+  contact:
+    name: Yuri Nascimento
+    url: https://github.com/yuriidiiego
+    email: yuriidiiego@gmail.com
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0
+tags: []
+servers: [
+  {
+    url: "http://localhost:3000",
+  }]
+paths:
+  /denuncia:
+    post:
+      operationId: createDenuncia
+      summary: Criar uma denúncia
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DenunciaRequest"
+      responses:
+        "201":
+          description: Denúncia criada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DenunciaResponse"
+        "400":
+          description: Dados inválidos no corpo da requisição
+      tags: &ref_0
+        - Denúncias
+      security: &ref_1
+        - bearer: []
+    get:
+      operationId: getDenuncias
+      summary: Obter todas as denúncias
+      parameters: []
+      responses:
+        "200":
+          description: Lista de denúncias recuperada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/DenunciaResponse"
+      tags: *ref_0
+      security: *ref_1
+  /denuncia/{id}:
+    get:
+      operationId: getDenuncia
+      summary: Obter uma denúncia pelo ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID da denúncia
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Denúncia recuperada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DenunciaResponse"
+        "404":
+          description: Denúncia não encontrada
+      tags: *ref_0
+      security: *ref_1
+    delete:
+      operationId: deleteDenuncia
+      summary: Excluir uma denúncia pelo ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID da denúncia
+          schema:
+            type: number
+      responses:
+        "204":
+          description: Denúncia excluída com sucesso
+        "404":
+          description: Denúncia não encontrada
+      tags: *ref_0
+      security: *ref_1
+    patch:
+      operationId: updateDenuncia
+      summary: Atualizar uma denúncia pelo ID
+      parameters:
+        - name: id
+          required: true
+          in: path
+          description: ID da denúncia
+          schema:
+            type: number
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDenunciaRequest"
+      responses:
+        "200":
+          description: Denúncia atualizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DenunciaResponse"
+        "404":
+          description: Denúncia não encontrada
+      tags: *ref_0
+      security: *ref_1
+  /endereco:
+    get:
+      operationId: getAddressFromCoordinates
+      summary: Obter endereço por coordenadas
+      description: Retorna o endereço pelas coordenadas
+      parameters:
+        - name: lat
+          required: true
+          in: query
+          description: Latitude das coordenadas
+          example: 51.507351
+          schema:
+            type: number
+        - name: long
+          required: true
+          in: query
+          description: Longitude das coordenadas
+          example: -0.127758
+          schema:
+            type: number
+      responses:
+        "200":
+          description: Endereço recuperado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Endereco"
+        "500":
+          description: Falha ao recuperar o endereço da API do MapQuest.
+      tags:
+        - Endereços
+  /autenticacao/login:
+    post:
+      operationId: login
+      summary: Realiza o login do usuário
+      description: Realiza o login do usuário no sistema
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthCredentialsRequest"
+      responses:
+        "201":
+          description: Login realizado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthCredentialsRequest"
+        "401":
+          description: E-mail ou senha inválidos. Por favor, forneça credenciais válidas
+      tags:
+        - Autenticações
+  /usuario/cadastro:
+    post:
+      operationId: register
+      summary: Cadastra um novo usuário
+      description: Cadastra um novo usuário no sistema
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UserRegisterRequest"
+      responses:
+        "201":
+          description: Usuário cadastrado com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserRegisterRequest"
+        "400":
+          description: Dados inválidos no corpo da requisição
+        "409":
+          description: Email já cadastrado
+      tags:
+        - Usuários
+
+components:
+  securitySchemes:
+    bearer:
+      scheme: bearer
+      bearerFormat: JWT
+      type: http
+  schemas:
+    DenuncianteRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+          example: Nome do denunciante
+          description: O nome do denunciante
+        cpf:
+          type: string
+          example: 123.456.789-00
+          description: O CPF do denunciante
+          pattern: /^(d{3}.?d{3}.?d{3}-?d{2})$/
+      required:
+        - nome
+        - cpf
+    DenunciaRequest:
+      type: object
+      properties:
+        titulo:
+          type: string
+          example: Título da denúncia
+          description: O título da denúncia
+        descricao:
+          type: string
+          example: Descrição da denúncia
+          description: A descrição da denúncia
+        latitude:
+          type: number
+          example: 40.7128
+          description: A latitude da denúncia
+        longitude:
+          type: number
+          example: -74.006
+          description: A longitude da denúncia
+        denunciante:
+          description: As informações do denunciante
+          allOf:
+            - $ref: "#/components/schemas/DenuncianteRequest"
+      required:
+        - titulo
+        - descricao
+        - latitude
+        - longitude
+        - denunciante
+    DenunciaResponse:
+      type: object
+      properties:
+        id:
+          type: number
+          example: 1
+          description: O ID da denúncia
+        titulo:
+          type: string
+          example: Título da denúncia
+          description: O título da denúncia
+        descricao:
+          type: string
+          example: Descrição da denúncia
+          description: A descrição da denúncia
+        denunciante:
+          type: object
+          description: Informações sobre o denunciante
+          example:
+            nome: Nome do denunciante
+            cpf: 123.456.789-00
+        endereco:
+          type: object
+          description: Informações sobre o endereço
+          example:
+            cep: "12345678"
+            rua: Rua teste
+            bairro: Bairro teste
+            cidade: Cidade teste
+            estado: Estado teste
+            pais: País teste
+      required:
+        - id
+        - titulo
+        - descricao
+        - denunciante
+        - endereco
+    UpdateDenunciaRequest:
+      type: object
+      properties:
+        titulo:
+          type: string
+          example: Título atualizado
+          description: O título atualizado da denúncia
+        descricao:
+          type: string
+          example: Descrição atualizada
+          description: A descrição atualizada da denúncia
+        nome:
+          type: string
+          example: Nome atualizado
+          description: O nome atualizado do denunciante
+        cpf:
+          type: string
+          example: CPF atualizado
+          description: O CPF atualizado do denunciante
+          pattern: /^(d{3}.?d{3}.?d{3}-?d{2})$/
+    AuthCredentialsRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          example: example@example.com
+          description: Endereço de e-mail
+        password:
+          type: string
+          example: senha123
+          description: Senha do usuário
+      required:
+        - email
+        - password
+    UserRegisterRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: João
+          description: Nome do usuário
+        email:
+          type: string
+          example: example@example.com
+          description: Endereço de e-mail
+        password:
+          type: string
+          example: senha123
+          description: Senha do usuário (mínimo de 6 caracteres)
+      required:
+        - name
+        - email
+        - password
+
