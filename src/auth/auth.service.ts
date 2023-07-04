@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../user/user.service';
 import { JwtPayload } from './jwt-payload.interface';
 import { AuthCredentialsRequest } from './payload/request/auth-credentials.request';
-import { JwtLoginResponse } from './payload/response/jwt-login.response';
+import { JwtLoginTokenResponse } from './payload/response/jwt-login-token.response';
 
 @Injectable()
 export class AuthService {
@@ -12,7 +12,7 @@ export class AuthService {
     private readonly userService: UserService,
   ) {}
 
-  async login(credentials: AuthCredentialsRequest): Promise<JwtLoginResponse> {
+  async login(credentials: AuthCredentialsRequest): Promise<JwtLoginTokenResponse> {
     const user = await this.userService.validateUserCredentials(
       credentials.email,
       credentials.password,
